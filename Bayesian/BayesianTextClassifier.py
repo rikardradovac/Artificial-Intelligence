@@ -99,7 +99,7 @@ def create_classification(dirname: dir, interpunctions: list, stopwords: list):
         
         # Positive words probability using a logarithmic scale
         if word in positive_words_counter:
-            probability = log(positive_words_counter[word] / (len(distinct_words) + len(positive_words)))
+            probability = log((positive_words_counter[word] + 1) / (len(distinct_words) + len(positive_words)))
             positive_probabilities[word] = probability
         else:
             probability = log(1 / (len(distinct_words) + len(positive_words)))
@@ -107,7 +107,7 @@ def create_classification(dirname: dir, interpunctions: list, stopwords: list):
             
         # Negative words probability using a logarithmic scale
         if word in negative_words_counter:
-            probability = log(negative_words_counter[word] / (len(distinct_words) + len(negative_words)))
+            probability = log((negative_words_counter[word] + 1) / (len(distinct_words) + len(negative_words)))
             negative_probabilities[word] = probability
         else:
             probability = log(1 / (len(distinct_words) + len(negative_words)))
@@ -149,9 +149,9 @@ def classify(dirname: dir, interpunctions: list, stopwords: list,
                         positive += positive_probabilites[word]
                         negative += negative_probabilities[word]
             if positive > negative:
-                print("the file is positive")
+                print(f"the file {(filepath)} is positive with probability = {positive}")
             else:
-                print("The file is negative")
+                print(f"The file {(filepath)} is negative with probability = {negative}")
                         
 
 def main():
